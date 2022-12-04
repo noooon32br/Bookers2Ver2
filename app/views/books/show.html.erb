@@ -18,15 +18,17 @@
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
-          <% if @book.favorite?(current_user) %>
-            <%= link_to book_favorite_path(@book.id), method: :delete do %>
-              <span style="color:red;">❤︎</span>
-            <% end %>
-          <% else %>
-            <%= link_to book_favorites_path(@book.id), method: :post do %>
-              <span>❤︎</span>
-            <% end %>
-          <% end %>
+          <td>
+            <% if @book.favorited_by?(current_user) %>
+              <%= link_to book_favorites_path(@book), method: :delete do %>
+              <span style="color:red;">❤︎<%= @book.favorites.count %>
+              <% end %>
+            <% else %>
+              <%= link_to book_favorites_path(@book), method: :post do %>
+              <span style="color:blue;">❤︎<%= @book.favorites.count %></span>
+              <% end %>
+            <% end %></td>
+           <td>コメント数：<%= @book.book_comments.count %></td>
           <% if @book.user == current_user %>
             <td><%= link_to 'Edit', edit_book_path(@book.id), class: "btn btn-sm btn-success" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
@@ -35,7 +37,27 @@
             <td></td>
           <% end %>
         </tr>
+
       </table>
+      <table>
+        <% @book.book_comments.each do |book_comment| %>
+        <tr>
+          <td><%= link_to(@book.user) do %>
+          <%= image_tag book_comment.user.get_profile_image, size:"100x100" %><br>
+            <%= book_comment.user.name %>
+            <% end %></td>
+          <td><%= book_comment.comment %></td>
+          <td><%= link_to "Destroy", book_book_comments_path(@book), method: :delete, class:"btn btn-sm btn-danger" %>
+                </td>
+        </tr>
+          <% end %>
+      </table>
+      <div>
+        <%= form_with model: [@book, @book_comment] do |f| %>
+          <%= f.text_area :comment, rows: '5' %><br />
+          <%= f.submit "送信" %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
