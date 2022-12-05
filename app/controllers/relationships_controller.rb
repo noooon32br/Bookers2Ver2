@@ -1,17 +1,15 @@
 class RelationshipsController < ApplicationController
   def index
-    
+
   end
 
   def create
     current_user.follow(params[:user_id])
-    relationship.save
     redirect_to request.referer
   end
 
   def destroy
     current_user.unfollow(params[:user_id])
-    relationship.destroy
     redirect_to request.referer
   end
 
