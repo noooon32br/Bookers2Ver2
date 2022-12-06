@@ -1,7 +1,4 @@
 class RelationshipsController < ApplicationController
-  def index
-
-  end
 
   def create
     current_user.follow(params[:user_id])
