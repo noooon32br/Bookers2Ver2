@@ -16,7 +16,10 @@
         </td>
         <td><%= link_to book.title,book %></td>
         <td><%= book.body %></td>
-       <%= render 'books/comment', book: book %>
+        <td id="favorite_buttons_<%= book.id %>">
+       <%= render 'books/likes', book: book %>
+       </td>
+       <td>コメント数：<%= book.book_comments.count %></td>
         </tr>
     <% end %>
   </tbody>
