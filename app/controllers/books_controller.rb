@@ -13,6 +13,7 @@ class BooksController < ApplicationController
   def index
     @books = Book.all
     @book = Book.new
+    @books = Book.find(Favorite.group(:book_id).where(created_at: Time.current.all_week).order('count(book_id) desc').pluck(:book_id))
   end
 
   def create
