@@ -29,4 +29,7 @@
       <%= link_to "フォローする", user_relationships_path(user.id), method: :post, class: "btn btn-success btn-sm btn-block" %>
     <% end %>
   <% end %>
+  <% if current_user != user %>
+    <%= link_to 'chatを始める', room_path(user.id) %>
+  <% end %>
 </div>
